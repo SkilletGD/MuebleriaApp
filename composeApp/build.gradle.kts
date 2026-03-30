@@ -41,6 +41,9 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.activity.compose)
+
+            // Motor de Red para Android
+            implementation(libs.ktor.client.okhttp)
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
@@ -51,7 +54,27 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
+
+            // --- NUEVAS LIBRERÍAS ---
+
+            // Red (Ktor) y Serialización
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
+            implementation(libs.ktor.client.logging)
+
+            // Inyección de Dependencias (Koin)
+            implementation(libs.koin.core)
+            implementation(libs.koin.compose)
+
+            // Persistencia (DataStore para el Token)
+            implementation(libs.datastore.preferences)
         }
+        iosMain.dependencies {
+            // Motor de Red para iOS
+            implementation(libs.ktor.client.darwin)
+        }
+
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }
