@@ -7,6 +7,8 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+
+    kotlin("plugin.serialization") version "2.1.0"
 }
 
 kotlin {
@@ -42,8 +44,12 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.activity.compose)
 
+            implementation(libs.koin.android)
+
             // Motor de Red para Android
             implementation(libs.ktor.client.okhttp)
+            // AGREGA ESTA LÍNEA para que funcione el delegado by preferencesDataStore
+            implementation(libs.datastore.android)
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
@@ -54,6 +60,7 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
+            implementation(compose.materialIconsExtended)
 
             // --- NUEVAS LIBRERÍAS ---
 
@@ -68,6 +75,9 @@ kotlin {
             implementation(libs.koin.compose)
 
             // Persistencia (DataStore para el Token)
+            implementation(libs.datastore.preferences)
+
+            // Esta se queda igual, es la base
             implementation(libs.datastore.preferences)
         }
         iosMain.dependencies {
