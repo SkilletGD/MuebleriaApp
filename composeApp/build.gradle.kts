@@ -7,8 +7,11 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.kotlinSerialization)
 
-    kotlin("plugin.serialization") version "2.1.0"
+
+    //kotlin("plugin.serialization") version "2.1.0"
+
 }
 
 kotlin {
@@ -28,16 +31,16 @@ kotlin {
         }
     }
     
-    js {
-        browser()
-        binaries.executable()
-    }
-    
-    @OptIn(ExperimentalWasmDsl::class)
-    wasmJs {
-        browser()
-        binaries.executable()
-    }
+//    js {
+//        browser()
+//        binaries.executable()
+//    }
+//
+//    @OptIn(ExperimentalWasmDsl::class)
+//    wasmJs {
+//        browser()
+//        binaries.executable()
+//    }
     
     sourceSets {
         androidMain.dependencies {
@@ -79,6 +82,12 @@ kotlin {
 
             // Esta se queda igual, es la base
             implementation(libs.datastore.preferences)
+
+            // Navegación Multiplataforma
+            implementation(libs.jetbrains.compose.navigation)
+
+            // Para las rutas Type-Safe
+            implementation(libs.kotlinx.serialization.json)
         }
         iosMain.dependencies {
             // Motor de Red para iOS

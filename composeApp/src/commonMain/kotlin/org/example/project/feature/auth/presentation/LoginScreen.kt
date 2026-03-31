@@ -1,4 +1,4 @@
-package org.example.project.feature.auth.ui
+package org.example.project.feature.auth.presentation
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
