@@ -8,7 +8,7 @@ import org.example.project.core.network.ApiEndpoints
 import org.example.project.feature.register.data.model.RegisterRequest
 import org.example.project.feature.register.data.model.RegisterResponse
 
-class RegistroApi(private val client: HttpClient) {
+class RegisterApi(private val client: HttpClient) {
     suspend fun register(request: RegisterRequest): RegisterResponse {
         return client.post(ApiEndpoints.Auth.REGISTER) {
             setBody(request)

@@ -76,6 +76,7 @@ kotlin {
             // Inyección de Dependencias (Koin)
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
+            implementation(libs.koin.compose.viewmodel)
 
             // Persistencia (DataStore para el Token)
             implementation(libs.datastore.preferences)
@@ -86,8 +87,12 @@ kotlin {
             // Navegación Multiplataforma
             implementation(libs.jetbrains.compose.navigation)
 
+
             // Para las rutas Type-Safe
             implementation(libs.kotlinx.serialization.json)
+
+            implementation("io.coil-kt.coil3:coil-compose:3.0.0")
+
         }
         iosMain.dependencies {
             // Motor de Red para iOS

@@ -3,12 +3,12 @@ package org.example.project.feature.register.data.repository
 import org.example.project.core.datastore.TokenManager
 import org.example.project.feature.register.data.model.RegisterRequest
 import org.example.project.feature.register.data.model.toDomain
-import org.example.project.feature.register.data.remote.RegistroApi
+import org.example.project.feature.register.data.remote.RegisterApi
 import org.example.project.feature.register.domain.models.User
 import org.example.project.feature.register.domain.repository.IRegistroRepository
 
-class RegistroRepositoryImpl(
-    private val api: RegistroApi,
+class RegisterRepositoryImpl(
+    private val api: RegisterApi,
     private val tokenManager: TokenManager
 ) : IRegistroRepository {
 
