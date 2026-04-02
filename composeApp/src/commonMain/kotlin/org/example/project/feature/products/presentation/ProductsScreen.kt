@@ -47,66 +47,6 @@ fun ProductsScreen(
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
-            // Header con gradiente y título
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .background(
-                        Brush.horizontalGradient(
-                            colors = listOf(WoodPrimary, WoodSecondary)
-                        )
-                    )
-                    .padding(horizontal = 16.dp, vertical = 12.dp)
-            ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    // Logo y título
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Home,
-                            contentDescription = "Logo",
-                            tint = Color.White,
-                            modifier = Modifier.size(32.dp)
-                        )
-                        Spacer(modifier = Modifier.width(12.dp))
-                        Text(
-                            text = "Mueblería Central",
-                            style = MaterialTheme.typography.titleLarge,
-                            fontWeight = FontWeight.Bold,
-                            color = Color.White,
-                            fontSize = 20.sp
-                        )
-                    }
-
-                    Row {
-                        // Icono de Login/Perfil (Nuevo)
-                        IconButton(onClick = { onNavigateToLogin() }) { // <--- USAMOS LA FUNCIÓN AQUÍ
-                            Icon(
-                                imageVector = Icons.Default.Person, // O Icons.Default.AccountCircle
-                                contentDescription = "Login",
-                                tint = Color.White
-                            )
-                        }
-                    }
-
-                    // Icono de carrito (opcional)
-                    IconButton(
-                        onClick = { /* TODO: Navegar al carrito */ }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.ShoppingCart,
-                            contentDescription = "Carrito",
-                            tint = Color.White,
-                            modifier = Modifier.size(24.dp)
-                        )
-                    }
-                }
-            }
 
             // Contenido principal
             Box(modifier = Modifier.fillMaxSize()) {

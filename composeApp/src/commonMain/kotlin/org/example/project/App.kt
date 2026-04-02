@@ -7,6 +7,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import org.example.project.core.navigation.NavigationGraph
 import org.example.project.core.theme.WoodcraftTheme
+import org.example.project.core.ui.components.MainScaffold
 
 import org.example.project.feature.auth.presentation.LoginScreen
 import org.example.project.feature.auth.presentation.LoginViewModel
@@ -22,9 +23,6 @@ fun App() {
     val navController = rememberNavController()
 
     WoodcraftTheme {
-        // 2. Llamamos a nuestro Grafo de navegación
-        Surface {
-            NavigationGraph(navController = navController)
-        }
+        MainScaffold()
     }
 }
