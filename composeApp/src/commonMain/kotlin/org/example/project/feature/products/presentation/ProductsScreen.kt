@@ -1,6 +1,7 @@
 package org.example.project.feature.products.presentation
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -42,7 +43,10 @@ val WoodGradientBackground = Brush.verticalGradient(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProductsScreen(viewModel: ProductsViewModel) {
+fun ProductsScreen(
+    viewModel: ProductsViewModel,
+    onProductClick: (Int) -> Unit
+) {
     val state by viewModel.uiState.collectAsState()
 
     Box(
@@ -136,7 +140,10 @@ fun ProductsScreen(viewModel: ProductsViewModel) {
                     }
 
                     items(state.products) { product ->
-                        ProductCard(product = product)
+                        ProductCard(
+                            product = product,
+                            onProductClick = { onProductClick(product.id) }
+                        )
                     }
                 }
 
@@ -184,7 +191,7 @@ fun ProductsScreen(viewModel: ProductsViewModel) {
                                 text = msg,
                                 color = WoodError,
                                 style = MaterialTheme.typography.bodyLarge,
-                                textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                                textAlign = TextAlign.Center
                             )
                             Spacer(modifier = Modifier.height(24.dp))
                             Button(
@@ -204,14 +211,18 @@ fun ProductsScreen(viewModel: ProductsViewModel) {
 }
 
 @Composable
-fun ProductCard(product: ProductDto) {
+fun ProductCard(
+    product: ProductDto,
+    onProductClick: () -> Unit
+    ) {
     val defaultImageUrl = "https://nikkoauto.mx/img/sin-foto.png"
 
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .height(360.dp)
-            .shadow(4.dp, RoundedCornerShape(16.dp), clip = true),
+            .shadow(4.dp, RoundedCornerShape(16.dp), clip = true)
+            .clickable { onProductClick() },
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = WoodSurface),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
