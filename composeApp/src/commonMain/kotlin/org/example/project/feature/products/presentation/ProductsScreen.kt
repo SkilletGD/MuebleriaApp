@@ -27,25 +27,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.example.project.feature.products.data.model.ProductDto
 import coil3.compose.AsyncImage
+import org.example.project.core.theme.*
 
-// Colores del tema Woodcraft (deben estar en un archivo central)
-val WoodPrimary = Color(0xFF8B5A2B)
-val WoodSecondary = Color(0xFFD4A373)
-val WoodBackground = Color(0xFFFEF9F0)
-val WoodSurface = Color(0xFFFFFFFF)
-val WoodTextPrimary = Color(0xFF2C1810)
-val WoodTextSecondary = Color(0xFF8B7355)
-val WoodTextHint = Color(0xFFB89A7A)
-val WoodError = Color(0xFFD32F2F)
-val WoodGradientBackground = Brush.verticalGradient(
-    colors = listOf(WoodBackground, WoodSurface)
-)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProductsScreen(
     viewModel: ProductsViewModel,
-    onProductClick: (Int) -> Unit
+    onProductClick: (Int) -> Unit,
+    onNavigateToLogin: () -> Unit
 ) {
     val state by viewModel.uiState.collectAsState()
 
@@ -91,6 +81,17 @@ fun ProductsScreen(
                             color = Color.White,
                             fontSize = 20.sp
                         )
+                    }
+
+                    Row {
+                        // Icono de Login/Perfil (Nuevo)
+                        IconButton(onClick = { onNavigateToLogin() }) { // <--- USAMOS LA FUNCIÓN AQUÍ
+                            Icon(
+                                imageVector = Icons.Default.Person, // O Icons.Default.AccountCircle
+                                contentDescription = "Login",
+                                tint = Color.White
+                            )
+                        }
                     }
 
                     // Icono de carrito (opcional)

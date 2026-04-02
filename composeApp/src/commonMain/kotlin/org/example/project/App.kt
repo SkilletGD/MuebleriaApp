@@ -1,8 +1,12 @@
 package org.example.project
 
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
+import org.example.project.core.navigation.NavigationGraph
+import org.example.project.core.theme.WoodcraftTheme
 
 import org.example.project.feature.auth.presentation.LoginScreen
 import org.example.project.feature.auth.presentation.LoginViewModel
@@ -15,17 +19,12 @@ import org.koin.compose.koinInject
 @Composable
 @Preview
 fun App() {
-    MaterialTheme {
-       // val loginViewModel: LoginViewModel = koinInject()
-        //val registerViewModel: RegisterViewModel = koinInject()
+    val navController = rememberNavController()
 
-        //LoginScreen(viewModel = loginViewModel)
-
-        //RegisterScreen(viewModel = registerViewModel)
-
-        val productsViewModel: ProductsViewModel = koinInject()
-        ProductsScreen(viewModel = productsViewModel)
-
-
+    WoodcraftTheme {
+        // 2. Llamamos a nuestro Grafo de navegación
+        Surface {
+            NavigationGraph(navController = navController)
+        }
     }
 }

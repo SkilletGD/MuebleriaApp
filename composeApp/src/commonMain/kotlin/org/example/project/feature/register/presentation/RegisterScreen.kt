@@ -18,28 +18,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.koin.compose.koinInject
+import org.example.project.core.theme.*
 
-// Colores del tema Woodcraft
-val WoodPrimary = Color(0xFF8B5A2B)
-val WoodSecondary = Color(0xFFD4A373)
-val WoodBackground = Color(0xFFFEF9F0)
-val WoodSurface = Color(0xFFFFFFFF)
-val WoodTextPrimary = Color(0xFF2C1810)
-val WoodTextSecondary = Color(0xFF8B7355)
-val WoodTextHint = Color(0xFFB89A7A)
-val WoodError = Color(0xFFD32F2F)
-val WoodGradientBackground = Brush.verticalGradient(
-    colors = listOf(WoodBackground, WoodSurface)
-)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterScreen(
-    //onNavigateToLogin: () -> Unit,
-    //onNavigateToHome: () -> Unit,
+    onNavigateToLogin: () -> Unit,
+    onNavigateToHome: () -> Unit,
     viewModel: RegisterViewModel = koinInject()
 ) {
     val formState by viewModel.formState.collectAsState()
@@ -49,11 +39,11 @@ fun RegisterScreen(
     var passwordVisible by remember { mutableStateOf(false) }
 
     // Manejo de navegación tras registro exitoso
-//    LaunchedEffect(uiState) {
-//        if (uiState is RegistroUiState.Success) {
-//            onNavigateToHome()
-//        }
-//    }
+    LaunchedEffect(uiState) {
+        if (uiState is RegistroUiState.Success) {
+            onNavigateToHome()
+        }
+    }
 
     // Fondo con gradiente
     Box(
@@ -188,7 +178,7 @@ fun RegisterScreen(
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
                     )
 
-                    Spacer(modifier = Modifier.height(16.dp))
+                    //Spacer(modifier = Modifier.height(16.dp))
 
                     // Campo: Teléfono
                     OutlinedTextField(
@@ -331,7 +321,7 @@ fun RegisterScreen(
                     fontSize = 14.sp
                 )
                 TextButton(
-                    onClick = {},//onNavigateToLogin,
+                    onClick = onNavigateToLogin,
                     modifier = Modifier.padding(0.dp)
                 ) {
                     Text(
