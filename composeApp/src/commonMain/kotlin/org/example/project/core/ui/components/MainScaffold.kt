@@ -4,44 +4,50 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
-import org.example.project.core.navigation.NavigationGraph
-import org.example.project.core.navigation.Screen
+// ELIMINA las importaciones de androidx.navigation (navController, backStack, etc.)
+import cafe.adriel.voyager.navigator.Navigator
+import cafe.adriel.voyager.transitions.SlideTransition
+import org.example.project.core.navigation.LoginScreenItem
+import org.example.project.core.navigation.ProductDetailScreenItem
+import org.example.project.core.navigation.ProductsScreenItem
+import org.example.project.core.navigation.RegisterScreenItem
 
 @Composable
 fun MainScaffold() {
-    val navController = rememberNavController()
-    // Obtenemos la ruta actual para saber qué mostrar
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry?.destination?.route
+    // Voyager maneja su propio estado, no necesitas rememberNavController()
+    Navigator(screen = ProductsScreenItem) { navigator ->
 
-    // Lógica de visibilidad: Ocultar barras en Login, Registro y Detalle
-    val showBars = when (currentRoute) {
-        Screen.Login.route,
-        Screen.Register.route,
-        Screen.ProductDetail.route -> false
-        else -> true
-    }
+        // Accedemos a la pantalla actual de forma directa y reactiva
+        val currentScreen = navigator.lastItem
 
-    Scaffold(
-        topBar = {
-            if (showBars) {
-                // Tu TopBar ahora "sentirá" el notch y bajará automáticamente
-                CustomTopBar()
-            }
-        },
-        bottomBar = {
-            if (showBars) {
-                BottomNavigation(navController)
-            }
+        // Lógica de visibilidad (Type-safe)
+        val showBars = when (currentScreen) {
+            is LoginScreenItem,
+            is RegisterScreenItem,
+            is ProductDetailScreenItem -> false
+            else -> true
         }
-    ) { innerPadding ->
-        Box(modifier = Modifier.padding(innerPadding)) {
-            // Llamamos a tu NavigationGraph pasando el controller
-            NavigationGraph(navController = navController)
+
+        Scaffold(
+            topBar = {
+                if (showBars) {
+                    CustomTopBar()
+                }
+            },
+            bottomBar = {
+                if (showBars) {
+                    // Asegúrate de que tu componente BottomNavigation
+                    // ahora acepte un "Navigator" de Voyager en lugar de NavHostController
+                    BottomNavigation(navigator)
+                }
+            }
+        ) { innerPadding ->
+            // El padding del Scaffold es importante para que el contenido
+            // no se meta debajo de las barras
+            Box(modifier = Modifier.padding(innerPadding)) {
+                SlideTransition(navigator)
+            }
         }
     }
 }

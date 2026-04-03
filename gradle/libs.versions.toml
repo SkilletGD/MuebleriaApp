@@ -19,6 +19,7 @@ koinCompose = "4.0.0"
 datastore = "1.1.1"
 navigationCompose = "2.8.0-alpha10" # O la versión estable más reciente de JetBrains
 kotlinxSerialization = "1.7.3"
+voyager = "1.1.0-beta03" # Versión estable para Compose Multiplatform
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -64,6 +65,10 @@ datastore-android = { module = "androidx.datastore:datastore-preferences", versi
 # Koin para Compose (Multiplataforma)
 # Koin ViewModel (Soporte específico para ViewModels en CommonMain)
 koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koin" }
+
+voyager-navigator = { module = "cafe.adriel.voyager:voyager-navigator", version.ref = "voyager" }
+voyager-transitions = { module = "cafe.adriel.voyager:voyager-transitions", version.ref = "voyager" }
+voyager-koin = { module = "cafe.adriel.voyager:voyager-koin", version.ref = "voyager" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

@@ -16,38 +16,33 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.GridView
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.ShoppingCart
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
-import androidx.compose.material3.FloatingActionButtonDefaults.elevation
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.currentBackStackEntryAsState
-import org.example.project.core.navigation.Screen
+import cafe.adriel.voyager.navigator.Navigator
+
+import org.example.project.core.navigation.LoginScreenItem
+import org.example.project.core.navigation.ProductsScreenItem
+
 
 @Composable
-fun BottomNavigation(navController: NavHostController) {
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry?.destination?.route
+fun BottomNavigation(navigator: Navigator) {
+    // 1. Obtenemos la pantalla actual directamente del navigator
+    val currentScreen = navigator.lastItem
 
-    // Contenedor principal para permitir que el carrito sobresalga
     Box(
         modifier = Modifier.fillMaxWidth().navigationBarsPadding(),
         contentAlignment = Alignment.BottomCenter
@@ -56,7 +51,7 @@ fun BottomNavigation(navController: NavHostController) {
         Surface(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(70.dp), // Altura estándar para e-commerce
+                .height(70.dp),
             color = MaterialTheme.colorScheme.surface,
             tonalElevation = 8.dp,
             shadowElevation = 16.dp
@@ -70,36 +65,45 @@ fun BottomNavigation(navController: NavHostController) {
                 BottomNavItem(
                     label = "Inicio",
                     icon = Icons.Default.Home,
-                    selected = currentRoute == Screen.Products.route,
-                    onClick = { /* Navegación a Products */ }
+                    // Comparamos si la pantalla actual es la de Productos
+                    selected = currentScreen is ProductsScreenItem,
+                    onClick = {
+                        // Si no estamos en productos, vamos allá limpiando la pila
+                        if (currentScreen !is ProductsScreenItem) {
+                            navigator.replaceAll(ProductsScreenItem)
+                        }
+                    }
                 )
 
-
-                // ESPACIO PARA EL CARRITO (Hueco vacío en el Row)
                 Spacer(modifier = Modifier.width(60.dp))
 
-                // 3. MI CUENTA
+                // 2. MI CUENTA
                 BottomNavItem(
                     label = "Cuenta",
                     icon = Icons.Default.Person,
-                    selected = currentRoute == Screen.Login.route,
-                    onClick = { navController.navigate(Screen.Login.route) }
+                    selected = currentScreen is LoginScreenItem,
+                    onClick = {
+                        if (currentScreen !is LoginScreenItem) {
+                            navigator.push(LoginScreenItem)
+                        }
+                    }
                 )
-
             }
         }
 
         // --- EL CARRITO RESALTADO (FAB) ---
         FloatingActionButton(
-            onClick = { /* Navegar al Carrito */ },
+            onClick = {
+                /* Aquí navegarías a tu CartScreenItem() cuando la crees */
+            },
             shape = CircleShape,
-            containerColor = Color.White, // Fondo blanco como en tu imagen
+            containerColor = Color.White,
             contentColor = Color.Black,
-            elevation = elevation(8.dp),
+            elevation = FloatingActionButtonDefaults.elevation(8.dp),
             modifier = Modifier
-                .offset(y = (-25).dp) // Esto lo sube para que resalte
+                .offset(y = (-25).dp)
                 .size(65.dp)
-                .border(1.dp, Color.LightGray, CircleShape) // Borde sutil
+                .border(1.dp, Color.LightGray, CircleShape)
         ) {
             Icon(
                 imageVector = Icons.Default.ShoppingCart,
@@ -108,7 +112,6 @@ fun BottomNavigation(navController: NavHostController) {
             )
         }
 
-        // Texto pequeño debajo del carrito (opcional para estilo exacto)
         Text(
             text = "Carrito",
             fontSize = 11.sp,

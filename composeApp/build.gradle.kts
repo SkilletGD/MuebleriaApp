@@ -85,13 +85,17 @@ kotlin {
             implementation(libs.datastore.preferences)
 
             // Navegación Multiplataforma
-            implementation(libs.jetbrains.compose.navigation)
+            //implementation(libs.jetbrains.compose.navigation)
 
 
             // Para las rutas Type-Safe
             implementation(libs.kotlinx.serialization.json)
 
             implementation("io.coil-kt.coil3:coil-compose:3.0.0")
+
+            implementation(libs.voyager.navigator)
+            implementation(libs.voyager.transitions)
+            implementation(libs.voyager.koin) // Para usar screenModel con Koin
 
         }
         iosMain.dependencies {
