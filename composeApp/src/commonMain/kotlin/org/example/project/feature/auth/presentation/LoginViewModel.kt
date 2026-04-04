@@ -16,6 +16,9 @@ class LoginViewModel(private val repository: AuthRepository) : ViewModel() {
     val loginState: StateFlow<NetworkResult<Any>?> = _loginState
 
     fun login(email: String, pass: String) {
+        // 🛡️ ESCUDO: Si ya estamos cargando, ignoramos cualquier otro clic
+        if (_loginState.value is NetworkResult.Loading) return
+
         viewModelScope.launch {
             _loginState.value = NetworkResult.Loading
             val result = repository.login(email, pass)

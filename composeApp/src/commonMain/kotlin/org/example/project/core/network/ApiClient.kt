@@ -15,13 +15,13 @@ fun createHttpClient(tokenManager: TokenManager) = HttpClient {
     install(ContentNegotiation) {
         json(Json {
             ignoreUnknownKeys = true
-            prettyPrint = true
+            prettyPrint = false
             isLenient = true
         })
     }
 
     install(Logging) {
-        level = LogLevel.ALL
+        level = LogLevel.INFO
         logger = Logger.DEFAULT
     }
 

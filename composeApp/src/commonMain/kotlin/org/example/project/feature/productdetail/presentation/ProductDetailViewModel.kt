@@ -22,13 +22,18 @@ class ProductDetailViewModel(
     }
 
     private fun loadProduct(id: Int) {
+        // 🛡️ EL ESCUDO: Si ya está cargando, abortamos cualquier intento extra.
+        if (_uiState.value.isLoading) return
+
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true, error = null) }
+
             getProductDetailUseCase(id)
                 .onSuccess { data ->
                     _uiState.update { it.copy(isLoading = false, product = data) }
                 }
                 .onFailure { e ->
+                    // Solo actualizamos el error, no tocamos nada más
                     _uiState.update { it.copy(isLoading = false, error = e.message) }
                 }
         }
