@@ -17,6 +17,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
@@ -35,81 +37,92 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cafe.adriel.voyager.core.screen.Screen
+import org.example.project.core.navigation.ProfileScreenItem
 import org.example.project.core.theme.WoodPrimary
 import org.example.project.core.theme.WoodSecondary
 
 @Composable
-fun CustomTopBar() {
+fun CustomTopBar(
+    currentScreen: Screen,
+    onBack: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .background(Brush.verticalGradient(listOf(WoodPrimary, WoodSecondary)))
             .statusBarsPadding()
-            .padding(bottom = 12.dp) // Un poco más de aire al final
+            .padding(bottom = 12.dp)
     ) {
-        // --- FILA 1: TÍTULO CENTRALIZADO ---
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 8.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = "Mueblería Central",
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold,
-                color = Color.White,
-                fontSize = 22.sp
-            )
-        }
-
-        // --- FILA 2: BUSCADOR + NOTIFICACIONES ---
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            // Buscador que ocupa casi todo el ancho
-            Surface(
-                modifier = Modifier
-                    .weight(1f)
-                    .height(45.dp),
-                shape = RoundedCornerShape(12.dp), // Bordes un poco más redondeados para un look moderno
-                color = Color.White
-            ) {
+        // --- DISEÑO CONDICIONAL ---
+        when (currentScreen) {
+            is ProfileScreenItem -> {
+                // DISEÑO PARA PERFIL: Más simple y elegante
                 Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier.padding(horizontal = 16.dp)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(56.dp) // Altura estándar de una TopBar
+                        .padding(horizontal = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Icon(
-                        imageVector = Icons.Default.Search,
-                        contentDescription = null,
-                        tint = Color.Gray,
-                        modifier = Modifier.size(22.dp)
-                    )
-                    Spacer(Modifier.width(10.dp))
+                    IconButton(onClick = onBack){
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "Regresar",
+                            tint = Color.White
+                        )
+                    }
                     Text(
-                        text = "Buscar muebles...",
-                        color = Color.Gray,
-                        fontSize = 15.sp
+                        text = "Mi Perfil",
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
                     )
+
                 }
             }
+            else -> {
+                // DISEÑO PARA INICIO (El que ya tenías)
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = "Mueblería Central",
+                        style = MaterialTheme.typography.titleLarge,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+                }
 
-            Spacer(Modifier.width(8.dp))
-
-            // Icono de Notificaciones
-            IconButton(
-                onClick = {}/*onNavigateToNotifications*/,
-                modifier = Modifier.size(48.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Notifications,
-                    contentDescription = "Notificaciones",
-                    tint = Color.White,
-                    modifier = Modifier.size(28.dp)
-                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    // Tu Buscador Blanco
+                    Surface(
+                        modifier = Modifier.weight(1f).height(45.dp),
+                        shape = RoundedCornerShape(12.dp),
+                        color = Color.White
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.padding(horizontal = 16.dp)
+                        ) {
+                            Icon(Icons.Default.Search, null, tint = Color.Gray)
+                            Spacer(Modifier.width(10.dp))
+                            Text("Buscar muebles...", color = Color.Gray)
+                        }
+                    }
+                    Spacer(Modifier.width(8.dp))
+                    IconButton(onClick = {}) {
+                        Icon(Icons.Default.Notifications, null, tint = Color.White)
+                    }
+                }
             }
         }
     }

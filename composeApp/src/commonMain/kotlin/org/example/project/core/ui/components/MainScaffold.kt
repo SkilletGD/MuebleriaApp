@@ -32,7 +32,14 @@ fun MainScaffold() {
         Scaffold(
             topBar = {
                 if (showBars) {
-                    CustomTopBar()
+                    CustomTopBar(
+                        currentScreen = navigator.lastItem,
+                        onBack = {
+                            // Si puede regresar, que lo haga, si no, que vaya al inicio
+                            if (navigator.canPop) navigator.pop()
+                            else navigator.replaceAll(ProductsScreenItem)
+                        }
+                    )
                 }
             },
             bottomBar = {
