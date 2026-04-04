@@ -1,6 +1,7 @@
 package org.example.project.core.ui.components
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -45,7 +46,8 @@ import org.example.project.core.theme.WoodSecondary
 @Composable
 fun CustomTopBar(
     currentScreen: Screen,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    onSearchClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -105,7 +107,9 @@ fun CustomTopBar(
                 ) {
                     // Tu Buscador Blanco
                     Surface(
-                        modifier = Modifier.weight(1f).height(45.dp),
+                        modifier = Modifier.weight(1f)
+                            .height(45.dp)
+                            .clickable { onSearchClick() },
                         shape = RoundedCornerShape(12.dp),
                         color = Color.White
                     ) {

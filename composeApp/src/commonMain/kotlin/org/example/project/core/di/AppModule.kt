@@ -6,6 +6,7 @@ import org.example.project.feature.productdetail.di.productDetailModule
 import org.example.project.feature.products.di.productsModule
 import org.example.project.feature.profile.di.profileModule
 import org.example.project.feature.register.di.registerModule
+import org.example.project.feature.search.di.searchModule
 
 // Cuando crees más features (productos, carrito), los importarás aquí
 
@@ -15,6 +16,8 @@ fun appModules() = listOf(
     registerModule,
     productsModule,
     productDetailModule,
-    profileModule
+    profileModule,
+    searchModule
+
 
 )

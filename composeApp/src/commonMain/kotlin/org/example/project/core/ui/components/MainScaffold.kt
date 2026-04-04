@@ -12,6 +12,7 @@ import org.example.project.core.navigation.LoginScreenItem
 import org.example.project.core.navigation.ProductDetailScreenItem
 import org.example.project.core.navigation.ProductsScreenItem
 import org.example.project.core.navigation.RegisterScreenItem
+import org.example.project.core.navigation.SearchScreenItem
 
 @Composable
 fun MainScaffold() {
@@ -26,6 +27,7 @@ fun MainScaffold() {
             is LoginScreenItem,
             is RegisterScreenItem,
             is ProductDetailScreenItem -> false
+            is SearchScreenItem -> false
             else -> true
         }
 
@@ -35,9 +37,10 @@ fun MainScaffold() {
                     CustomTopBar(
                         currentScreen = navigator.lastItem,
                         onBack = {
-                            // Si puede regresar, que lo haga, si no, que vaya al inicio
-                            if (navigator.canPop) navigator.pop()
-                            else navigator.replaceAll(ProductsScreenItem)
+                            navigator.pop()
+                        },
+                        onSearchClick = {
+                            navigator.push(SearchScreenItem)
                         }
                     )
                 }

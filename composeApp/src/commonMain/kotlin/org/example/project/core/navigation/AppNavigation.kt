@@ -10,6 +10,7 @@ import org.example.project.feature.productdetail.presentation.ProductDetailScree
 import org.example.project.feature.products.presentation.ProductsScreen
 import org.example.project.feature.profile.presentation.ProfileScreen
 import org.example.project.feature.register.presentation.RegisterScreen
+import org.example.project.feature.search.presentation.SearchScreen
 import org.koin.compose.viewmodel.koinViewModel
 
 // --- DEFINICIÓN DE PANTALLAS ---
@@ -101,6 +102,25 @@ object ProfileScreenItem : Screen {
             viewModel = koinViewModel(),
             onLogout = {
                 navigator.replaceAll(LoginScreenItem)
+            }
+        )
+    }
+}
+
+object SearchScreenItem : Screen {
+    @Composable
+    override fun Content() {
+        val navigator = LocalNavigator.currentOrThrow
+
+        // Llamamos a la "Screen" que está en el feature de search
+        SearchScreen(
+            viewModel = koinViewModel(),
+            onProductClick = { productId ->
+                // Navegamos al detalle cuando el usuario toque un resultado
+                navigator.push(ProductDetailScreenItem(productId = productId))
+            },
+            onBack = {
+                navigator.pop()
             }
         )
     }
