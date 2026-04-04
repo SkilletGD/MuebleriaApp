@@ -8,6 +8,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import org.example.project.feature.auth.presentation.LoginScreen
 import org.example.project.feature.productdetail.presentation.ProductDetailScreen
 import org.example.project.feature.products.presentation.ProductsScreen
+import org.example.project.feature.profile.presentation.ProfileScreen
 import org.example.project.feature.register.presentation.RegisterScreen
 import org.koin.compose.viewmodel.koinViewModel
 
@@ -87,6 +88,19 @@ object RegisterScreenItem : Screen {
             },
             onNavigateToHome = {
                 navigator.replaceAll(ProductsScreenItem)
+            }
+        )
+    }
+}
+
+object ProfileScreenItem : Screen {
+    @Composable
+    override fun Content() {
+        val navigator = LocalNavigator.currentOrThrow
+        ProfileScreen(
+            viewModel = koinViewModel(),
+            onLogout = {
+                navigator.replaceAll(LoginScreenItem)
             }
         )
     }
