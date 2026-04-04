@@ -26,6 +26,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,15 +35,24 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.navigator.Navigator
-
+import org.example.project.core.datastore.TokenManager
 import org.example.project.core.navigation.LoginScreenItem
 import org.example.project.core.navigation.ProductsScreenItem
+import org.example.project.core.navigation.ProfileScreenItem
+import org.koin.compose.koinInject
 
 
 @Composable
-fun BottomNavigation(navigator: Navigator) {
+fun BottomNavigation(
+    navigator: Navigator,
+    tokenManager: TokenManager = koinInject()
+) {
     // 1. Obtenemos la pantalla actual directamente del navigator
     val currentScreen = navigator.lastItem
+
+    // Recolectamos el token. Si es null, el usuario no está logueado.
+    val token by tokenManager.token.collectAsState(initial = null)
+    val isLoggedIn = !token.isNullOrBlank()
 
     Box(
         modifier = Modifier.fillMaxWidth().navigationBarsPadding(),
@@ -81,10 +92,19 @@ fun BottomNavigation(navigator: Navigator) {
                 BottomNavItem(
                     label = "Cuenta",
                     icon = Icons.Default.Person,
-                    selected = currentScreen is LoginScreenItem,
+                    // Ahora seleccionamos si estamos en Login O en Profile
+                    selected = currentScreen is LoginScreenItem || currentScreen is ProfileScreenItem,
                     onClick = {
-                        if (currentScreen !is LoginScreenItem) {
-                            navigator.push(LoginScreenItem)
+                        if (isLoggedIn) {
+                            // SI ESTÁ LOGUEADO: Va directo al Perfil
+                            if (currentScreen !is ProfileScreenItem) {
+                                navigator.push(ProfileScreenItem)
+                            }
+                        } else {
+                            // SI NO ESTÁ LOGUEADO: Va al Login
+                            if (currentScreen !is LoginScreenItem) {
+                                navigator.push(LoginScreenItem)
+                            }
                         }
                     }
                 )
