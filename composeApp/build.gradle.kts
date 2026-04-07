@@ -92,6 +92,7 @@ kotlin {
             implementation(libs.kotlinx.serialization.json)
 
             implementation("io.coil-kt.coil3:coil-compose:3.0.0")
+            implementation("io.coil-kt.coil3:coil-network-okhttp:3.0.0-rc01")
 
             implementation(libs.voyager.navigator)
             implementation(libs.voyager.transitions)
