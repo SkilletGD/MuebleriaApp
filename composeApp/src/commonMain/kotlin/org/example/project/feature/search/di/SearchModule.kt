@@ -16,7 +16,12 @@ val searchModule = module {
 
     // 2. Repository Layer: Vinculamos la interfaz con la implementación
     // get() aquí inyectará el SearchApi definido arriba
-    single<ISearchRepository> { SearchRepositoryImpl(get()) }
+    single<ISearchRepository> {
+        SearchRepositoryImpl(
+            api = get(),
+            dataStore = get() // Este 'get' buscará el del platformModule
+        )
+    }
 
     // 3. Domain Layer: El UseCase (factory crea una instancia nueva cada vez que se pide)
     // get() aquí inyectará el ISearchRepository
@@ -24,5 +29,5 @@ val searchModule = module {
 
     // 4. Presentation Layer: El ViewModel
     // get() aquí inyectará el SearchProductsUseCase
-    viewModel { SearchViewModel(get()) }
+    viewModel { SearchViewModel(get(), get()) }
 }

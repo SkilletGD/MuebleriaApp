@@ -97,6 +97,8 @@ kotlin {
             implementation(libs.voyager.transitions)
             implementation(libs.voyager.koin) // Para usar screenModel con Koin
 
+            implementation("com.squareup.okio:okio:3.9.0")
+
         }
         iosMain.dependencies {
             // Motor de Red para iOS
