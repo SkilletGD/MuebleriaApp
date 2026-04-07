@@ -14,17 +14,20 @@ class SearchProductsUseCase(private val repository: ISearchRepository) {
 
             remoteData.forEach { product ->
                 val precioBase = product.precio_base.toDoubleOrNull() ?: 0.0
+
+                // Solo entramos a las variantes si el PRODUCTO coincide con la búsqueda
+                val nameMatches = product.nombre.contains(query, ignoreCase = true) ||
+                        product.categoria_nombre.contains(query, ignoreCase = true)
+
                 product.variantes.forEach { variant ->
                     val precioExtra = variant.precio_adicional.toDoubleOrNull() ?: 0.0
-                    val matches = product.nombre.contains(query, ignoreCase = true) ||
-                            product.categoria_nombre.contains(query, ignoreCase = true) ||
-                            variant.color.contains(query, ignoreCase = true)
+                    val colorMatches = variant.color.contains(query, ignoreCase = true)
 
-                    if (matches) {
+                    if (nameMatches || colorMatches) {
                         filteredResults.add(
                             SearchResult(
                                 productId = product.id,
-                                variantId = variant.id,
+                                variantId = variant.id, // <--- REVISA ESTE ID EN UN PRINT
                                 title = "${product.nombre} (${variant.color})",
                                 price = precioBase + precioExtra,
                                 category = product.categoria_nombre,

@@ -6,6 +6,10 @@ import cafe.adriel.voyager.core.screen.Screen
 import cafe.adriel.voyager.navigator.LocalNavigator
 import cafe.adriel.voyager.navigator.currentOrThrow
 import org.example.project.feature.auth.presentation.LoginScreen
+import org.example.project.feature.cart.presentation.CartEvent
+import org.example.project.feature.cart.presentation.CartScreen
+import org.example.project.feature.cart.presentation.CartViewModel
+import org.example.project.feature.checkout.presentation.CheckoutScreenItem
 import org.example.project.feature.productdetail.presentation.ProductDetailScreen
 import org.example.project.feature.products.presentation.ProductsScreen
 import org.example.project.feature.profile.presentation.ProfileScreen
@@ -22,11 +26,20 @@ object ProductsScreenItem : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
+        val cartViewModel: CartViewModel = koinViewModel()
         ProductsScreen(
             viewModel = koinViewModel(),
             onProductClick = { id ->
                 // Equivale a navigateToDetail(id)
                 navigator.push(ProductDetailScreenItem(productId = id))
+            },
+            onAddToCart = { productId ->
+                // 2. Ahora 'cartViewModel' ya existe en este scope
+                cartViewModel.onEvent(
+                    CartEvent.OnAddToCart(variantId = productId, quantity = 1)
+                )
+
+                navigator.push(CartScreenItem)
             },
             onNavigateToLogin = {
                 // Equivale a navigateToLogin()
@@ -43,12 +56,20 @@ data class ProductDetailScreenItem(val productId: Int) : Screen {
     @Composable
     override fun Content() {
         val navigator = LocalNavigator.currentOrThrow
+        val cartViewModel: CartViewModel = koinViewModel()
         ProductDetailScreen(
             productId = productId,
             viewModel = koinViewModel(),
             onBack = {
                 // Equivale a navigateBack()
                 navigator.pop()
+            },
+            onAddToCart = { variantId, quantity ->
+                cartViewModel.onEvent(
+                    CartEvent.OnAddToCart(variantId = variantId, quantity = quantity)
+                )
+
+                navigator.push(CartScreenItem)
             }
         )
     }
@@ -121,6 +142,20 @@ object SearchScreenItem : Screen {
             },
             onBack = {
                 navigator.pop()
+            }
+        )
+    }
+}
+
+object CartScreenItem : Screen{
+    @Composable
+    override fun Content(){
+        val navigator = LocalNavigator.currentOrThrow
+
+        CartScreen(
+            viewModel = koinViewModel(),
+            onNavigateToCheckout = {
+                navigator.push(CheckoutScreenItem)
             }
         )
     }

@@ -2,6 +2,7 @@ package org.example.project.core.di
 
 
 import org.example.project.feature.auth.di.authModule
+import org.example.project.feature.cart.di.cartModule
 import org.example.project.feature.productdetail.di.productDetailModule
 import org.example.project.feature.products.di.productsModule
 import org.example.project.feature.profile.di.profileModule
@@ -17,7 +18,8 @@ fun appModules() = listOf(
     productsModule,
     productDetailModule,
     profileModule,
-    searchModule
+    searchModule,
+    cartModule
 
 
 )

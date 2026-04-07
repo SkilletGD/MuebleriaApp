@@ -35,7 +35,8 @@ import androidx.compose.material3.Surface
 fun ProductDetailScreen(
     productId: Int,
     viewModel: ProductDetailViewModel,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    onAddToCart: (variantId: Int, quantity: Int) -> Unit
 ) {
     val state by viewModel.uiState.collectAsState()
     var selectedVariantIndex by remember { mutableStateOf(0) }
@@ -396,7 +397,12 @@ fun ProductDetailScreen(
                             Spacer(modifier = Modifier.height(32.dp))
 
                             Button(
-                                onClick = { /* Lógica para agregar al carrito */ },
+                                onClick = {
+                                    val selectedVariant = state.product?.variantes?.getOrNull(selectedVariantIndex)
+                                    selectedVariant?.let {
+                                        onAddToCart(it.id, quantity) // Pasamos los datos reales
+                                    }
+                                },
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .height(56.dp),

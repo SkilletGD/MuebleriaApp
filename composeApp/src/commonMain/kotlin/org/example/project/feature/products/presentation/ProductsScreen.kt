@@ -35,7 +35,8 @@ import org.example.project.core.theme.*
 fun ProductsScreen(
     viewModel: ProductsViewModel,
     onProductClick: (Int) -> Unit,
-    onNavigateToLogin: () -> Unit
+    onNavigateToLogin: () -> Unit,
+    onAddToCart: (Int) -> Unit,
 ) {
     val state by viewModel.uiState.collectAsState()
 
@@ -83,7 +84,10 @@ fun ProductsScreen(
                     items(state.products) { product ->
                         ProductCard(
                             product = product,
-                            onProductClick = { onProductClick(product.id) }
+                            onProductClick = { onProductClick(product.id) },
+                            onAddToCart = { variantId -> // <--- Aquí ya recibimos el ID de la variante
+                                onAddToCart(variantId)
+                            }
                         )
                     }
                 }
@@ -154,7 +158,8 @@ fun ProductsScreen(
 @Composable
 fun ProductCard(
     product: ProductDto,
-    onProductClick: () -> Unit
+    onProductClick: () -> Unit,
+    onAddToCart: (Int) -> Unit
     ) {
     val defaultImageUrl = "https://nikkoauto.mx/img/sin-foto.png"
 
@@ -252,7 +257,16 @@ fun ProductCard(
                     )
 
                     IconButton(
-                        onClick = { /* TODO: Agregar al carrito */ },
+                        onClick = {
+                            val defaultVariantId = product.variantes.firstOrNull()?.id
+                            if (defaultVariantId != null) {
+                                onAddToCart(defaultVariantId)
+                            } else {
+                                // Si por algo no tiene variantes, usamos su propio ID
+                                // (aunque lo ideal es que siempre tenga al menos una)
+                                onAddToCart(product.id)
+                            }
+                        },
                         modifier = Modifier.size(36.dp)
                     ) {
                         Icon(

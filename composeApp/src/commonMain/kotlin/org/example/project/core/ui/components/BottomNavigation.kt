@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cafe.adriel.voyager.navigator.Navigator
 import org.example.project.core.datastore.TokenManager
+import org.example.project.core.navigation.CartScreenItem
 import org.example.project.core.navigation.LoginScreenItem
 import org.example.project.core.navigation.ProductsScreenItem
 import org.example.project.core.navigation.ProfileScreenItem
@@ -114,7 +115,7 @@ fun BottomNavigation(
         // --- EL CARRITO RESALTADO (FAB) ---
         FloatingActionButton(
             onClick = {
-                /* Aquí navegarías a tu CartScreenItem() cuando la crees */
+                navigator.push(CartScreenItem)
             },
             shape = CircleShape,
             containerColor = Color.White,
